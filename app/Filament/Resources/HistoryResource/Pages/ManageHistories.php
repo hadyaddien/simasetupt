@@ -4,9 +4,15 @@ namespace App\Filament\Resources\HistoryResource\Pages;
 
 use App\Filament\Resources\HistoryResource;
 use Filament\Actions;
-use Filament\Resources\Pages\CreateRecord;
+use Filament\Resources\Pages\ManageRecords;
 
-class CreateHistory extends CreateRecord
+class ManageHistories extends ManageRecords
 {
     protected static string $resource = HistoryResource::class;
+
+    protected function getHeaderActions(): array
+    {
+        return [
+        ];
+    }
 }

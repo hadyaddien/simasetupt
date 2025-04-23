@@ -45,15 +45,6 @@ class Asset extends Model
         return $this->hasMany(Maintenance::class);
     }
 
-    public function assetLoans()
-    {
-        return $this->hasMany(AssetLoan::class);
-    }
-
-    public function histories()
-    {
-        return $this->hasMany(History::class, 'id_asset');
-    }
 
     public function generateDetailAssets(): void
     {

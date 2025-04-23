@@ -9,6 +9,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -17,7 +18,9 @@ class HistoryResource extends Resource
 {
     protected static ?string $model = History::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-inbox-arrow-down';
+    protected static ?string $navigationIcon = 'heroicon-o-clock';
+    protected static ?string $navigationLabel = 'Asset Histories';
+    protected static ?string $label = 'Asset Histories';
 
     public static function form(Form $form): Form
     {
@@ -31,34 +34,50 @@ class HistoryResource extends Resource
     {
         return $table
             ->columns([
-                //
-            ])
-            ->filters([
-                //
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
-    }
+                // Waktu aksi
+                TextColumn::make('created_at')
+                    ->label('Date')
+                    ->dateTime('d M Y H:i:s')
+                    ->sortable(),
 
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
+                TextColumn::make('subject.code_asset')
+                    ->label('Code Asset')
+                    ->formatStateUsing(function ($state, $record) {
+                        return $record->subject_type === \App\Models\Detail_asset::class
+                            ? $state
+                            : '-';
+                    }),
+                // Event (created, updated, dll)
+                TextColumn::make('log_name')
+                    ->label('Activity')
+                    ->searchable(),
+
+
+                // Old Values
+                TextColumn::make('old_values')
+                    ->label('Old Value')
+                    ->wrap()
+                    ->toggleable()
+                    ->html(),
+
+                // New Values
+                TextColumn::make('new_values')
+                    ->label('New Value')
+                    ->wrap()
+                    ->toggleable()
+                    ->html(),
+
+            ])
+            ->defaultSort('created_at', 'desc')
+            ->filters([])
+            ->actions([])
+            ->bulkActions([]);
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListHistories::route('/'),
-            'create' => Pages\CreateHistory::route('/create'),
-            'edit' => Pages\EditHistory::route('/{record}/edit'),
+            'index' => Pages\ManageHistories::route('/'),
         ];
     }
 }

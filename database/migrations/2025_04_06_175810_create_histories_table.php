@@ -13,12 +13,9 @@ return new class extends Migration
     {
         Schema::create('histories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('asset_id')->constrained('assets')->onDelete('cascade');
-            $table->foreignId('damage_report_id')->constrained('damage_reports')->onDelete('cascade');
-            $table->foreignId('maintenance_id')->constrained('maintenances')->onDelete('cascade');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->string('change_type');
-            $table->text('information')->nullable();
+            $table->string('log_name');
+            $table->morphs('subject');
+            $table->json('properties')->nullable();
             $table->timestamps();
         });
     }
