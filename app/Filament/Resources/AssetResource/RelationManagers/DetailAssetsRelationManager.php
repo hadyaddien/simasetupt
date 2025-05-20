@@ -66,11 +66,12 @@ class DetailAssetsRelationManager extends RelationManager
 
                 TextColumn::make('condition')
                     ->placeholder('Not Assigned')
-                    ->label('Asset Condition'),
+                    ->formatStateUsing(fn($state) => Detail_asset::getConditionOptions()[$state] ?? $state),
 
                 TextColumn::make('asset_status')
                     ->placeholder('Not Assigned')
-                    ->label('Asset Status'),
+                    ->label('Asset Status')
+                    ->formatStateUsing(fn($state) => Detail_asset::getAssetStatusOptions()[$state] ?? $state),
             ])
             ->filters([
                 //

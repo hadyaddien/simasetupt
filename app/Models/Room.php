@@ -14,9 +14,9 @@ class Room extends Model
         return $this->hasMany(Asset::class);
     }
 
-    public function getFloorOptions()
+    public static function getFloorOptions(): array
     {
-        [
+        return [
             '1' => '1st Floor',
             '2' => '2nd Floor',
         ];

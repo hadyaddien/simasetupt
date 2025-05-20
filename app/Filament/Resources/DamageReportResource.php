@@ -18,6 +18,7 @@ use Filament\Tables;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -56,11 +57,11 @@ class DamageReportResource extends Resource
                     ->readOnly()
                     ->disabled(),
 
-                Select::make('status_report')
-                    ->options(DamageReport::getStatusReportOptions()),
+                Select::make('status')
+                    ->native(false)
+                    ->options(DamageReport::getStatusOptions()),
 
-                Select::make('action_taken')
-                    ->options(DamageReport::getActionTakenOptions()),
+
 
             ]);
     }
@@ -78,11 +79,9 @@ class DamageReportResource extends Resource
                 TextColumn::make('description')
                     ->label('Description'),
 
-                TextColumn::make('status_report')
-                    ->label('Report Status'),
-
-                TextColumn::make('action_taken')
-                    ->label('Action Taken'),
+                TextColumn::make('status')
+                    ->label('Report Status')
+                    ->formatStateUsing(fn($state) => DamageReport::getStatusOptions()[$state] ?? $state),
 
                 TextColumn::make('created_at')
                     ->label('Reported At')

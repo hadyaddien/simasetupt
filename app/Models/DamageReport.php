@@ -22,22 +22,23 @@ class DamageReport extends Model
         return $this->belongsTo(Detail_asset::class);
     }
 
-    public static function getStatusReportOptions(): array
+    public static function getStatusOptions(): array
     {
         return [
-            'new_report' => 'New Report',
-            'reviewed' => 'Reviewed',
-            'resolved' => 'Resolved',
-        ];
-    }
-
-    public static function getActionTakenOptions(): array
-    {
-        return [
-            'pending' => 'Pending',
-            'repaired' => 'Repaired',
-            'replaced' => 'Replaced',
-            'disposed' => 'Disposed',
+            'Report Status' => [
+                'new_report' => 'New Report',
+                'reviewed' => 'Reviewed',
+                'action_proposed' => 'Action Proposed',
+            ],
+            'In Progress' => [
+                'on_repair' => 'Under Repair',
+                'under_replacement' => 'Under Replacement',
+            ],
+            'Resolved' => [
+                'repaired' => 'Repaired',
+                'replaced' => 'Replaced',
+                'disposed' => 'Disposed',
+            ],
         ];
     }
 }

@@ -10,26 +10,16 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 class TotalAssets extends BaseWidget
 {
     protected ?string $heading = 'Overview';
-
-    // protected ?string $description = 'An overview of assets.';
+    protected static ?int $sort = 1;
 
     protected function getStats(): array
     {
         return [
             Stat::make('Total Assets', Asset::count()),
-            Stat::make('Asset In Use', Detail_asset::where('asset_status', 'in_use')->count())
-                ->description('32k increase')
-                ->descriptionIcon('heroicon-m-arrow-trending-up')
-                ->color('primary'),
+            Stat::make('Asset In Use', Detail_asset::where('asset_status', 'in_use')->count()),
+            Stat::make('Asset In Repair', Detail_asset::where('asset_status', 'in_repair')->count()),
+            Stat::make('Asset In Warehouse', Detail_asset::where('asset_status', 'in_warehouse')->count()),
 
-            Stat::make('Asset In Repair', Detail_asset::where('asset_status', 'in_repair')->count())
-                ->description('32k increase')
-                ->descriptionIcon('heroicon-m-arrow-trending-up')
-                ->color('danger'),
-            Stat::make('Asset In Warehouse', Detail_asset::where('asset_status', 'in_warehouse')->count())
-                ->description('32k increase')
-                ->descriptionIcon('heroicon-m-arrow-trending-up')
-                ->color('gray'),
         ];
     }
 }

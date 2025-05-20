@@ -34,6 +34,7 @@ class RoomResource extends Resource
                 Select::make('floor')
                     ->label('Floor')
                     ->required()
+                    ->preload()
                     ->options(Room::getFloorOptions())
             ]);
     }

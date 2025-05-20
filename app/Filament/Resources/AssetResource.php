@@ -100,9 +100,9 @@ class AssetResource extends Resource
                                 TextInput::make('quantity')
                                     ->label('Quantity')
                                     ->required()
-                                    ->numeric()
-                                    ->disabled(fn(?string $context) => $context === 'edit')
-                                    ->helperText(fn(?string $context) => $context === 'edit' ? 'Quantity cannot be changed after creation.' : null),
+                                    ->numeric(),
+                                // ->disabled(fn(?string $context) => $context === 'edit')
+                                // ->helperText(fn(?string $context) => $context === 'edit' ? 'Quantity cannot be changed after creation.' : null),
                             ]),
                         Grid::make(2)
                             ->schema([
@@ -172,6 +172,7 @@ class AssetResource extends Resource
                 ImageColumn::make('picture')
                     ->label('Product Images')
                     ->square()
+                    ->size(70)
                     ->placeholder('No image uploaded'),
 
                 TextColumn::make('name')
@@ -192,14 +193,8 @@ class AssetResource extends Resource
                 //
             ])
             ->actions([
-                // ActionGroup::make([
-                // ViewAction::make(),
                 EditAction::make(),
-                //     DeleteAction::make(),
-                // ])
-                //     ->button()
-                //     ->label('Actions')
-                //     ->size(ActionSize::Small),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
