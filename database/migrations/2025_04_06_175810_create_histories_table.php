@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('histories', function (Blueprint $table) {
             $table->id();
+            $table->string('code_asset')->nullable();
             $table->string('log_name');
             $table->morphs('subject');
             $table->json('properties')->nullable();

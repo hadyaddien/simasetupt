@@ -24,6 +24,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\BadgeColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Hash;
 
 class UserResource extends Resource
 {
@@ -74,8 +75,8 @@ class UserResource extends Resource
                 TextInput::make('password')
                     ->label('Password')
                     ->password()
-                    ->revealable()
-                    ->required(),
+                    ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
+                    ->dehydrated(fn (?string $state): bool => filled($state)),
 
                 TextInput::make('phone_number')
                     ->label('Phone Number')

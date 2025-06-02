@@ -43,11 +43,7 @@ class HistoryResource extends Resource
                 TextColumn::make('subject.code_asset')
                     ->label('Code Asset')
                     ->searchable()
-                    ->formatStateUsing(function ($state, $record) {
-                        return $record->subject_type === \App\Models\Detail_asset::class
-                            ? $state
-                            : '-';
-                    }),
+                    ->formatStateUsing(fn($state, $record) => $record->code_asset_display),
                 // Event (created, updated, dll)
                 TextColumn::make('log_name')
                     ->label('Activity')

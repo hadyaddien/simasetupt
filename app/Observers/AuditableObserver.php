@@ -41,4 +41,18 @@ class AuditableObserver
             'properties'   => json_encode(['changes' => $changes]),
         ]);
     }
+
+    public function deleted(Model $model)
+    {
+        // Untuk model Detail_asset saja
+        if ($model instanceof \App\Models\Detail_asset) {
+            History::create([
+                'log_name'     => 'Deleted',
+                'subject_type' => get_class($model),
+                'subject_id'   => $model->getKey(),
+                'code_asset'   => $model->code_asset,
+                'properties'   => json_encode(['changes' => $model->getOriginal()]),
+            ]);
+        }
+    }
 }

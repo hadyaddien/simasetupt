@@ -54,9 +54,14 @@ class History extends Model
             if (in_array($field, $exclude, true)) {
                 continue;
             }
-            // Resolve relasi jika perlu
-            $oldRaw = $vals['old'];
-            $old     = $this->resolveRelationValue($field, $oldRaw);
+            // ✅ Tambahan: pastikan bentuk $vals adalah array dengan key 'old'
+            if (!is_array($vals) || !array_key_exists('old', $vals)) {
+                $old = $this->resolveRelationValue($field, $vals); // fallback 1 level
+            } else {
+                $oldRaw = $vals['old'];
+                $old = $this->resolveRelationValue($field, $oldRaw);
+            }
+
             $lines[] = ucfirst(Str::snake($field, ' ')) . ": " . $old;
         }
 
@@ -73,11 +78,23 @@ class History extends Model
             if (in_array($field, $exclude, true)) {
                 continue;
             }
-            $newRaw = $vals['new'];
-            $new    = $this->resolveRelationValue($field, $newRaw);
+            if (!is_array($vals) || !array_key_exists('new', $vals)) {
+                $new = $this->resolveRelationValue($field, $vals);
+            } else {
+                $newRaw = $vals['new'];
+                $new = $this->resolveRelationValue($field, $newRaw);
+            }
+    
             $lines[] = ucfirst(Str::snake($field, ' ')) . ": " . $new;
         }
 
         return implode("</br>", $lines);
+    }
+
+    public function getCodeAssetDisplayAttribute(): string
+    {
+        return $this->subject_type === \App\Models\Detail_asset::class
+            ? ($this->subject?->code_asset ?? $this->code_asset ?? '-')
+            : '-';
     }
 }

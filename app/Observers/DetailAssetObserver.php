@@ -8,20 +8,15 @@ class DetailAssetObserver
 {
     public function created(Detail_asset $detail): void
     {
-        $this->syncQuantity($detail);
-    }
-
-    public function saved(Detail_asset $detail): void
-    {
-        $this->syncQuantity($detail);
+        $this->syncAssetQuantity($detail);
     }
 
     public function deleted(Detail_asset $detail): void
     {
-        $this->syncQuantity($detail);
+        $this->syncAssetQuantity($detail);
     }
 
-    protected function syncQuantity(Detail_asset $detail): void
+    protected function syncAssetQuantity(Detail_asset $detail): void
     {
         $asset = $detail->asset;
 

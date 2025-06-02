@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\AssetResource\RelationManagers;
 
+use App\Models\Asset;
+use App\Models\Category;
 use App\Models\Detail_asset;
 use App\Models\Room;
 use App\Models\User;
@@ -10,12 +12,14 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class DetailAssetsRelationManager extends RelationManager
 {
@@ -26,6 +30,9 @@ class DetailAssetsRelationManager extends RelationManager
         return $form
 
             ->schema([
+                TextInput::make('code_asset')
+                    ->hidden()
+                    ->dehydrated(true),
                 Placeholder::make('asset_code_display')
                     ->label('Asset Code')
                     ->content(fn($record) => $record?->code_asset ?? '-')
@@ -100,16 +107,50 @@ class DetailAssetsRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make()
+                ->label('Add New Asset')
+                    ->mutateFormDataUsing(function (array $data) {
+                        $asset = $this->getOwnerRecord();
+            
+                        $categorySlug = $asset->category?->category_slug ?? 'UNK';
+                        $category = strtoupper(substr($categorySlug, 0, 4));
+                        $name = strtoupper(Str::slug($asset->name, '-'));
+            
+                        $lastNumber = $asset->detail_assets()->count() + 1;
+                        $code = $category . '-' . $name . '-' . str_pad($lastNumber, 3, '0', STR_PAD_LEFT);
+            
+                        while ($asset->detail_assets()->where('code_asset', $code)->exists()) {
+                            $lastNumber++;
+                            $code = $category . '-' . $name . '-' . str_pad($lastNumber, 3, '0', STR_PAD_LEFT);
+                        }
+            
+                        $data['code_asset'] = $code;
+            
+                        return $data;
+                    }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()
+                ->before(function ($record, $action) {
+                    $remaining = $record->asset->detail_assets()->count();
+                    if ($remaining <= 1) {
+                        Notification::make()
+                            ->title('Failed to delete')
+                            ->body('At least one detail asset must remain.')
+                            ->danger()
+                            ->persistent()
+                            ->send();
+            
+                        $action->cancel();
+                    }
+                })
             ])
             ->bulkActions([
                 // Tables\Actions\BulkActionGroup::make([
                 //     Tables\Actions\DeleteBulkAction::make(),
                 // ]),
             ]);
+             
     }
 }
