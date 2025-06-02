@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\User\Resources;
+namespace App\Filament\Validator\Resources;
 
-use App\Filament\User\Resources\DamageReportResource\Pages;
-use App\Filament\User\Resources\DamageReportResource\RelationManagers;
+use App\Filament\Validator\Resources\DamageReportResource\Pages;
+use App\Filament\Validator\Resources\DamageReportResource\RelationManagers;
 use App\Models\DamageReport;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;

@@ -69,6 +69,9 @@ class DamageReportResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->query(
+                DamageReport::query()->where('validator_status', 'approved')
+            )
             ->columns([
                 TextColumn::make('detailAsset.code_asset')
                     ->label('Asset Code'),

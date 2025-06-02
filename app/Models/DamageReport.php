@@ -41,4 +41,9 @@ class DamageReport extends Model
             ],
         ];
     }
+
+    public function isApprovedByValidator(): bool
+    {
+        return $this->validator_status === 'approved';
+    }
 }

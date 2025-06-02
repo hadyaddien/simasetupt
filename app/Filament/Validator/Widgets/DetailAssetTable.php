@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\User\Widgets;
+namespace App\Filament\Validator\Widgets;
 
 use App\Models\Detail_asset;
 use App\Models\User;
@@ -62,13 +62,27 @@ class DetailAssetTable extends BaseWidget
         return [
             Action::make('lapor_kerusakan')
                 ->label('Report')
-                ->url(fn($record) => route('filament.user.resources.damage-reports.create', [
+                ->url(fn($record) => route('filament.validator.resources.damage-reports.create', [
                     'detail_asset_id' => $record->id
                 ]))
                 ->icon('heroicon-o-exclamation-triangle')
                 ->color('#125D72')
                 ->visible(function ($record) {
-                    return !in_array($record->asset_status, ['in_repair', 'disposed']);
+                    // Cek status aset harus dalam kondisi layak
+                    $allowedAssetStatus = ['in_warehouse', 'in_use', 'in_loan'];
+                    if (!in_array($record->asset_status, $allowedAssetStatus)) {
+                        return false;
+                    }
+    
+                    // Cek apakah ada laporan aktif
+                    $disallowedStatuses = [
+                        'new_report', 'reviewed', 'action_proposed',
+                        'on_repair', 'under_replacement', 'disposed',
+                    ];
+    
+                    return !\App\Models\DamageReport::where('detail_asset_id', $record->id)
+                        ->whereIn('status', $disallowedStatuses)
+                        ->exists();
                 }),
         ];
     }

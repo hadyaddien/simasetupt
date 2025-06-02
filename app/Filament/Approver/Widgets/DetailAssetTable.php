@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\User\Widgets;
+namespace App\Filament\Approver\Widgets;
 
 use App\Models\Detail_asset;
 use App\Models\User;
@@ -20,10 +20,7 @@ class DetailAssetTable extends BaseWidget
 
     protected function getTableQuery(): Builder
     {
-        $user = Auth::user();
-
         return Detail_asset::query()
-            ->where('division_id', $user->division_id)
             ->orderBy('created_at', 'desc');
     }
 
@@ -55,21 +52,5 @@ class DetailAssetTable extends BaseWidget
                 ->label('Asset Status'),
         ];
         return $columns;
-    }
-
-    protected function getTableActions(): array
-    {
-        return [
-            Action::make('lapor_kerusakan')
-                ->label('Report')
-                ->url(fn($record) => route('filament.user.resources.damage-reports.create', [
-                    'detail_asset_id' => $record->id
-                ]))
-                ->icon('heroicon-o-exclamation-triangle')
-                ->color('#125D72')
-                ->visible(function ($record) {
-                    return !in_array($record->asset_status, ['in_repair', 'disposed']);
-                }),
-        ];
     }
 }

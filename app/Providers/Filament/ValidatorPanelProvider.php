@@ -2,7 +2,6 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Approver\Widgets\MaintenanceApprovalTable;
 use App\Http\Middleware\CheckRole;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -20,26 +19,25 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
-class ApproverPanelProvider extends PanelProvider
+class ValidatorPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->id('approver')
-            ->path('approver')
+            ->id('validator')
+            ->path('validator')
             ->colors([
                 'primary' => "#125D72",
             ])
-            ->discoverResources(in: app_path('Filament/Approver/Resources'), for: 'App\\Filament\\Approver\\Resources')
-            ->discoverPages(in: app_path('Filament/Approver/Pages'), for: 'App\\Filament\\Approver\\Pages')
+            ->discoverResources(in: app_path('Filament/Validator/Resources'), for: 'App\\Filament\\Validator\\Resources')
+            ->discoverPages(in: app_path('Filament/Validator/Pages'), for: 'App\\Filament\\Validator\\Pages')
             ->pages([
                 Pages\Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Approver/Widgets'), for: 'App\\Filament\\Approver\\Widgets')
+            ->discoverWidgets(in: app_path('Filament/Validator/Widgets'), for: 'App\\Filament\\Validator\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                // Widgets\FilamentInfoWidget::class,
-                MaintenanceApprovalTable::class,
+                \App\Filament\Validator\Widgets\DetailAssetTable::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -51,7 +49,7 @@ class ApproverPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                CheckRole::class . ':approver',
+                CheckRole::class . ':validator',
             ])
             ->authMiddleware([
                 Authenticate::class,

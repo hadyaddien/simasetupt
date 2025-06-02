@@ -44,4 +44,10 @@ class Detail_asset extends Model
             'disposed' => 'Disposed',
         ];
     }
+
+    public function damageReports()
+{
+    return $this->hasMany(\App\Models\DamageReport::class);
+}
+
 }

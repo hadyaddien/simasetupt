@@ -9,6 +9,18 @@ class AuthController extends Controller
 {
     public function showLoginForm()
     {
+        if (Auth::check()) {
+            $role = Auth::user()->roles;
+            if ($role === 'administrator') {
+                return redirect('/admin');
+            } elseif ($role === 'viewer') {
+                return redirect('/user');
+            } elseif ($role === 'approver') {
+                return redirect('/approver');
+            } elseif ($role === 'validator') {
+                return redirect('/validator');
+            }
+        }
         return view('login');
     }
 
@@ -30,6 +42,8 @@ class AuthController extends Controller
                 return redirect('/user');
             } else if ($roles == 'approver') {
                 return redirect('/approver');
+            } else if ($roles == 'validator') {
+                return redirect('/validator');
             }
         }
 

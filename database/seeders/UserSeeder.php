@@ -22,16 +22,25 @@ class UserSeeder extends Seeder
                 'roles' => 'administrator'
             ],
             [
-                'name' => 'User',
+                'name' => 'Hadyaddien Sabila',
                 'email' => 'user@email.com',
                 'password' => Hash::make('user'),
-                'roles' => 'viewer'
+                'roles' => 'viewer',
+                'division_id' => 1,
+            ],
+            [
+                'name' => 'Mr. Logika',
+                'email' => 'validator@email.com',
+                'password' => Hash::make('validator'),
+                'roles' => 'validator',
+                'division_id' => 1,
             ],
             [
                 'name' => 'Approver',
                 'email' => 'approver@email.com',
                 'password' => Hash::make('approver'),
                 'roles' => 'approver',
+                'division_id' => 1,
             ],
         ]);
     }

@@ -5,4 +5,5 @@ return [
     App\Providers\Filament\AdminPanelProvider::class,
     App\Providers\Filament\ApproverPanelProvider::class,
     App\Providers\Filament\UserPanelProvider::class,
+    App\Providers\Filament\ValidatorPanelProvider::class,
 ];

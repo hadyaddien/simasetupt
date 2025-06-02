@@ -18,7 +18,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             // $table->enum('status_report', ['new_report', 'reviewed', 'resolved'])->default('new_report');
             // $table->enum('action_taken', ['pending', 'repaired', 'replaced', 'disposed'])->default('Pending');
-            $table->text('status')->nullable();
+            $table->string('status')->default('new_report');
+            $table->enum('validator_status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->string('attachment')->nullable();
             $table->timestamps();
         });
