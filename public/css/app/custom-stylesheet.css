@@ -28,31 +28,60 @@ nav.flex.h-16.items-center {
 }
 
 
-/* Tombol yang ada di header section */
-header > div.flex > div > a {
-    background-color: #125D72 !important; 
-    color: #ffffff !important;
-    border-radius: 0.5rem;
-    padding: 0.5rem 1rem;
-    font-weight: 600;
-}
-/* Hover effect */
-header > div.flex > div > a:hover {
-    background-color: #14a2ba !important; 
-    color: #ffffff !important;
-}
 
 
 /* Ubah background dan warna teks header toolbar tabel */
-.fi-ta-header-ctn .fi-ta-header-toolbar {
+/* .fi-ta-header-ctn .fi-ta-header-toolbar {
     background-color: #125D72 !important;
     color: #ffffff !important;
-}
+} */
 
 /* Pastikan semua elemen dalam toolbar juga putih */
-.fi-ta-header-ctn .fi-ta-header-toolbar * {
+/* .fi-ta-header-ctn .fi-ta-header-toolbar * {
     color: #ffffff !important;
+} */
+
+
+
+/* Warna teks badge notifikasi filter */
+/* .fi-ta-filters-dropdown .fi-dropdown-trigger span span span {
+    color: #125D72 !important; 
+    font-weight: 600;
+} */
+/* Ubah warna background panel dropdown filter */
+/* .fi-dropdown-panel {
+    background-color: #125D72 !important;
+    color: #ffffff !important;
+} */
+
+/* Tambahkan border kontras pada panel dropdown filter */
+/* .fi-ta-filters-dropdown .fi-dropdown-panel {
+    border: 3px solid #094e61d2 !important; 
+    border-radius: 8px !important;
+} */
+
+/* Ubah warna teks item di dalam dropdown filter */
+/* .fi-dropdown-panel * {
+    color: #ffffff !important;
+} */
+
+/* Ubah warna teks pilihan pada dropdown Choices.js */
+/* .choices__inner > div {
+    color: #125D72 !important;
+    font-weight: 600; 
+} */
+
+/* Warna teks item di dropdown list (saat memilih filter) */
+/* .choices__list--dropdown .choices__item {
+    color: #125D72 !important;
+    font-weight: 500;
+} */
+
+/* Saat item di-hover */
+/* .choices__list--dropdown .choices__item--selectable.is-highlighted {
+    background-color: #e0f3f7 !important;
+    color: #125D72 !important;
 }
-
-
-
+.choices__inner .choices__item {
+    color: #125D72 !important;
+} */

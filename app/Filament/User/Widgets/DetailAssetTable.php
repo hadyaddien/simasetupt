@@ -3,6 +3,7 @@
 namespace App\Filament\User\Widgets;
 
 use App\Models\Detail_asset;
+use App\Models\User;
 use Filament\Tables\Actions\Action;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
@@ -10,6 +11,8 @@ use Filament\Tables\Table;
 use Filament\Widgets\TableWidget as BaseWidget;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DetailAssetTable extends BaseWidget
 {
@@ -17,9 +20,13 @@ class DetailAssetTable extends BaseWidget
 
     protected function getTableQuery(): Builder
     {
+        $user = Auth::user();
+
         return Detail_asset::query()
+            ->where('division_id', $user->division_id)
             ->orderBy('created_at', 'desc');
     }
+
 
     protected function getTableColumns(): array
     {
@@ -59,7 +66,7 @@ class DetailAssetTable extends BaseWidget
                     'detail_asset_id' => $record->id
                 ]))
                 ->icon('heroicon-o-exclamation-triangle')
-                ->color('danger'),
+                ->color('#125D72'),
         ];
     }
 }

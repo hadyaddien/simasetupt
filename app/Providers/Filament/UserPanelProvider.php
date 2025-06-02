@@ -27,7 +27,7 @@ class UserPanelProvider extends PanelProvider
             ->id('user')
             ->path('user')
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => "#125D72",
             ])
             ->discoverResources(in: app_path('Filament/User/Resources'), for: 'App\\Filament\\User\\Resources')
             ->discoverPages(in: app_path('Filament/User/Pages'), for: 'App\\Filament\\User\\Pages')
@@ -37,7 +37,7 @@ class UserPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/User/Widgets'), for: 'App\\Filament\\User\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                // Widgets\FilamentInfoWidget::class,
+                \App\Filament\User\Widgets\DetailAssetTable::class,
             ])
             ->middleware([
                 EncryptCookies::class,

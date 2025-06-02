@@ -42,6 +42,7 @@ class HistoryResource extends Resource
 
                 TextColumn::make('subject.code_asset')
                     ->label('Code Asset')
+                    ->searchable()
                     ->formatStateUsing(function ($state, $record) {
                         return $record->subject_type === \App\Models\Detail_asset::class
                             ? $state

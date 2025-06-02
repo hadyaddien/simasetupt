@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Asset;
 use App\Models\Detail_asset;
 use App\Observers\AuditableObserver;
+use App\Observers\DetailAssetObserver;
 use Filament\Support\Assets\Css;
 use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Database\Eloquent\Model;
@@ -29,6 +30,11 @@ class AppServiceProvider extends ServiceProvider
         foreach ([Asset::class, Detail_asset::class] as $model) {
             $model::observe(AuditableObserver::class);
         }
+
+        // DetailAssetObserver khusus untuk sinkronisasi quantity
+        Detail_asset::observe(DetailAssetObserver::class);
+
+        // Custom CSS Filament
         FilamentAsset::register([
             Css::make('custom-stylesheet', 'css/app/custom-stylesheet.css'),
         ]);

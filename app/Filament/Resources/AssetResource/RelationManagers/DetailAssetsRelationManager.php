@@ -4,9 +4,11 @@ namespace App\Filament\Resources\AssetResource\RelationManagers;
 
 use App\Models\Detail_asset;
 use App\Models\Room;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
@@ -22,14 +24,38 @@ class DetailAssetsRelationManager extends RelationManager
     public function form(Form $form): Form
     {
         return $form
+
             ->schema([
-                Select::make('division_id')
-                    ->required()
-                    ->relationship('division', 'division_name'),
+                Placeholder::make('asset_code_display')
+                    ->label('Asset Code')
+                    ->content(fn($record) => $record?->code_asset ?? '-')
+                    ->columnSpanFull(),
 
                 Select::make('user_id')
-                    ->required()
-                    ->relationship('user', 'name'),
+                    ->label('User')
+                    ->relationship('user', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->reactive()
+                    ->afterStateUpdated(function ($state, Forms\Set $set) {
+                        $user = User::find($state);
+                        if ($user) {
+                            $set('division_id', $user->division_id);
+                        }
+                    })
+                    ->required(),
+
+                Select::make('division_id')
+                    ->label('Division')
+                    ->relationship('division', 'division_name')
+                    ->disabled() // tidak bisa diubah
+                    ->dehydrated(true) // tetap disimpan saat submit
+                    ->required(),
+
+                Select::make('room_id')
+                    ->label('Room')
+                    ->relationship('room', 'room_name')
+                    ->required(),
 
                 Select::make('condition')
                     ->options(Detail_asset::getConditionOptions())
@@ -39,9 +65,6 @@ class DetailAssetsRelationManager extends RelationManager
                     ->options(Detail_asset::getAssetStatusOptions())
                     ->required(),
 
-                Select::make('room_id')
-                    ->required()
-                    ->relationship('room', 'room_name'),
             ]);
     }
 
@@ -77,16 +100,16 @@ class DetailAssetsRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                // Tables\Actions\CreateAction::make(),
+                Tables\Actions\CreateAction::make(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                // Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                // Tables\Actions\BulkActionGroup::make([
+                //     Tables\Actions\DeleteBulkAction::make(),
+                // ]),
             ]);
     }
 }

@@ -74,6 +74,7 @@ class DamageReportResource extends Resource
                     ->label('Asset Code'),
 
                 TextColumn::make('user.name')
+                    ->searchable()
                     ->label('Reporter'),
 
                 TextColumn::make('description')
@@ -85,6 +86,7 @@ class DamageReportResource extends Resource
 
                 TextColumn::make('created_at')
                     ->label('Reported At')
+                    ->sortable()
                     ->dateTime(),
             ])
             ->filters([

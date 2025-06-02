@@ -55,9 +55,11 @@ class MaintenanceResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('damageReport.detailAsset.code_asset')
+                    ->searchable()
                     ->label('Code Asset'),
                 TextColumn::make('cost')
                     ->label('Cost')
+                    ->sortable()
                     ->money('IDR'),
                 TextColumn::make('status_approv')
                     ->label('Status Approve')

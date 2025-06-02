@@ -105,36 +105,25 @@ class UserResource extends Resource
 
                 TextColumn::make('division.division_name')
                     ->label('Division')
+                    ->searchable()
                     ->sortable(),
 
                 TextColumn::make('roles')
                     ->label('Role')
                     ->sortable(),
 
-                // TextColumn::make('created_at')
-                //     ->label('Created At')
-                //     ->dateTime()
-                //     ->sortable(),
 
-                // TextColumn::make('updated_at')
-                //     ->label('Updated At')
-                //     ->since()
-                //     ->sortable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('division_id')
                     ->relationship('division', 'division_name')
+                    ->native(false)
                     ->label('Filter by Division'),
             ])
             ->actions([
-                // ActionGroup::make([
                 ViewAction::make(),
-                // EditAction::make(),
                 DeleteAction::make(),
-                // ])
-                // ->button()
-                // ->label('Actions')
-                // ->size(ActionSize::Small),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

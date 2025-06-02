@@ -17,6 +17,7 @@ use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Split;
 use Filament\Forms\Components\Textarea;
@@ -97,10 +98,18 @@ class AssetResource extends Resource
                                     ->options(Asset::getUnitOptions())
                                     ->required(),
 
+
                                 TextInput::make('quantity')
                                     ->label('Quantity')
                                     ->required()
-                                    ->numeric(),
+                                    ->numeric()
+                                    ->disabled(fn(?string $context) => $context === 'edit')
+                                    ->dehydrated(fn(?string $context) => $context !== 'edit')
+                                    ->helperText(
+                                        fn(?string $context) => $context === 'edit'
+                                            ? 'The asset amount is calculated automatically based on the asset details.'
+                                            : 'Masukkan jumlah rencana unit saat pembuatan awal.'
+                                    ),
                                 // ->disabled(fn(?string $context) => $context === 'edit')
                                 // ->helperText(fn(?string $context) => $context === 'edit' ? 'Quantity cannot be changed after creation.' : null),
                             ]),

@@ -54,8 +54,29 @@ class User extends Authenticatable
     {
         return [
             'administrator' => 'Administrator',
-            'viewer' => 'Viewer',
+            'validator' => 'Validator',
             'approver' => 'Approver',
+            'viewer' => 'Viewer',
         ];
+    }
+
+    public function isAdministrator(): bool
+    {
+        return $this->role === 'administrator';
+    }
+
+    public function isValidator(): bool
+    {
+        return $this->role === 'validator';
+    }
+
+    public function isApprover(): bool
+    {
+        return $this->role === 'approver';
+    }
+
+    public function isViewer(): bool
+    {
+        return $this->role === 'viewer';
     }
 }
