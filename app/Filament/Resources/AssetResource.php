@@ -42,7 +42,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class AssetResource extends Resource
 {
     protected static ?string $navigationGroup = 'Assets Management';
-
+    protected static ?string $navigationLabel = 'Manage Data Assets';
     protected static ?int $navigationSort = 1;
     protected static ?string $model = Asset::class;
     
@@ -58,7 +58,7 @@ class AssetResource extends Resource
                         Grid::make(3)
                             ->schema([
                                 FileUpload::make('picture')
-                                ->label('Asset Image')
+                                    ->label('Asset Image')
                                     ->image()
                                     ->imageEditor(),
 

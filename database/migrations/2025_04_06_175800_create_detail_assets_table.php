@@ -21,6 +21,7 @@ return new class extends Migration
             $table->enum('condition', ['good', 'minor_damage', 'not_functional'])->nullable();
             $table->enum('asset_status', ['in_warehouse', 'in_use', 'in_repair', 'disposed'])->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
