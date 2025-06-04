@@ -18,7 +18,9 @@ class DetailAssetHistoryResource extends Resource
 {
     protected static ?string $model = DetailAssetHistory::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-clock';
+    protected static ?string $navigationLabel = 'Asset Histories';
+    protected static ?string $label = 'Asset Histories';
 
     public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
     {

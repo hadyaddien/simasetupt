@@ -29,9 +29,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Model::unguard();
         Detail_asset::observe(DetailAssetHistoryObserver::class);
-        // foreach ([Asset::class, Detail_asset::class] as $model) {
-        //     $model::observe(AuditableObserver::class);
-        // }
 
         // DetailAssetObserver khusus untuk sinkronisasi quantity
         Detail_asset::observe(DetailAssetObserver::class);
