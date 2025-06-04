@@ -11,6 +11,7 @@ class DetailAssetHistoryObserver
     {
         DetailAssetHistory::create([
             'detail_asset_id' => $detail->id,
+            'code_asset' => $detail->code_asset,
             'event' => 'created',
             'changes' => json_encode(['message' => 'Asset created.']),
         ]);
@@ -26,6 +27,7 @@ class DetailAssetHistoryObserver
 
             DetailAssetHistory::create([
                 'detail_asset_id' => $detail->id,
+                'code_asset' => $detail->code_asset,
                 'event' => 'moved',
                 'changes' => json_encode([
                     'from' => $oldRoomName,
@@ -43,6 +45,7 @@ class DetailAssetHistoryObserver
 
             DetailAssetHistory::create([
                 'detail_asset_id' => $detail->id,
+                'code_asset' => $detail->code_asset,
                 'event' => 'moved_division',
                 'changes' => json_encode([
                     'from' => $oldDiv,
@@ -59,6 +62,7 @@ class DetailAssetHistoryObserver
 
             DetailAssetHistory::create([
                 'detail_asset_id' => $detail->id,
+                'code_asset' => $detail->code_asset,
                 'event' => 'changed_condition',
                 'changes' => json_encode([
                     'from' => ucfirst(str_replace('_', ' ', $from)),
@@ -75,6 +79,7 @@ class DetailAssetHistoryObserver
 
             DetailAssetHistory::create([
                 'detail_asset_id' => $detail->id,
+                'code_asset' => $detail->code_asset,
                 'event' => 'changed_status',
                 'changes' => json_encode([
                     'from' => ucfirst(str_replace('_', ' ', $from)),
@@ -89,6 +94,7 @@ class DetailAssetHistoryObserver
     {
         DetailAssetHistory::create([
             'detail_asset_id' => $detail->id,
+            'code_asset' => $detail->code_asset,
             'event' => 'deleted',
             'changes' => json_encode(['message' => 'Asset deleted.']),
         ]);

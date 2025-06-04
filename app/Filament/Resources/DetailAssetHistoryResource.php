@@ -37,7 +37,10 @@ class DetailAssetHistoryResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('detailAsset.code_asset')->label('Code Asset')->searchable(),
+                TextColumn::make('code_asset')
+                    ->label('Code Asset')
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('event')->label('Event'),
                 TextColumn::make('changes')
                     ->label('Changes')
@@ -49,10 +52,8 @@ class DetailAssetHistoryResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-            ])
-            ->bulkActions([
-            ]);
+            ->actions([])
+            ->bulkActions([]);
     }
 
     public static function getPages(): array

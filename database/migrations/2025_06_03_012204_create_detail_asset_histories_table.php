@@ -17,6 +17,7 @@ return new class extends Migration
                 ->nullable()
                 ->constrained('detail_assets')
                 ->nullOnDelete();
+            $table->string('code_asset')->nullable();
             $table->string('event'); // e.g. created, updated, deleted, reported, repaired
             $table->json('changes')->nullable(); // optional data tentang perubahan
             $table->timestamps();
