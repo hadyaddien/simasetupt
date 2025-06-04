@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('maintenances', function (Blueprint $table) {
             $table->id();
             $table->foreignId('damage_report_id')->constrained('damage_reports')->cascadeOnDelete();
-            $table->decimal('cost', 15, 2)->nullable();
+            $table->decimal('repair_cost', 15, 2)->nullable();
+            $table->decimal('replace_cost', 15, 2)->nullable();
             $table->enum('status_approv', ['allow_repair', 'allow_replace', 'dispose'])->nullable();
             $table->timestamps();
         });

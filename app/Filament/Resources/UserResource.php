@@ -28,8 +28,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserResource extends Resource
 {
-    protected static ?string $navigationLabel = 'Manage Data Users';
-    protected static ?int $navigationSort = 2;
+    protected static ?string $navigationGroup = 'Users Management';
     protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
@@ -75,8 +74,8 @@ class UserResource extends Resource
                 TextInput::make('password')
                     ->label('Password')
                     ->password()
-                    ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
-                    ->dehydrated(fn (?string $state): bool => filled($state)),
+                    ->dehydrateStateUsing(fn(string $state): string => Hash::make($state))
+                    ->dehydrated(fn(?string $state): bool => filled($state)),
 
                 TextInput::make('phone_number')
                     ->label('Phone Number')

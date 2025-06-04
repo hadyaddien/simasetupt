@@ -19,8 +19,11 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class MaintenanceResource extends Resource
 {
+
+    protected static ?string $navigationGroup = 'Assets Management';
     protected static ?string $navigationLabel = 'Request Maintenance';
 
+    protected static ?int $navigationSort = 3;
     protected static ?string $model = Maintenance::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-wrench-screwdriver';
@@ -42,9 +45,13 @@ class MaintenanceResource extends Resource
                     ->preload()
                     ->required(),
 
-                TextInput::make('cost')
-                    ->label('Cost')
-                    ->required()
+                TextInput::make('repair_cost')
+                    ->label('Estimated Repairment Cost')
+                    ->prefix('Rp.')
+                    ->numeric(),
+
+                TextInput::make('replace_cost')
+                    ->label('Estimated Replacement Cost')
                     ->prefix('Rp.')
                     ->numeric(),
             ]);
@@ -57,8 +64,12 @@ class MaintenanceResource extends Resource
                 TextColumn::make('damageReport.detailAsset.code_asset')
                     ->searchable()
                     ->label('Code Asset'),
-                TextColumn::make('cost')
-                    ->label('Cost')
+                TextColumn::make('repair_cost')
+                    ->label('Estimated Repairment Cost')
+                    ->sortable()
+                    ->money('IDR'),
+                TextColumn::make('replace_cost')
+                    ->label('Estimated Replacement Cost')
                     ->sortable()
                     ->money('IDR'),
                 TextColumn::make('status_approv')

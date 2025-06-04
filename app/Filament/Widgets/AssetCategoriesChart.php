@@ -12,15 +12,21 @@ class AssetCategoriesChart extends ChartWidget
 
     protected function getData(): array
     {
-        $data = Asset::selectRaw('category_id, COUNT(*) as total')
-            ->with('category')
+        $data = Asset::with('category')
+            ->selectRaw('category_id, COUNT(*) as total')
             ->groupBy('category_id')
             ->get()
-            ->mapWithKeys(fn($item) => [$item->category->name ?? 'Others' => $item->total]);
+            ->mapWithKeys(function ($item) {
+                $name = optional($item->category)->category_name ?? 'Others';
+                return [$name => $item->total];
+            });
 
         return [
             'datasets' => [
-                ['label' => 'Assets', 'data' => array_values($data->toArray())],
+                [
+                    'label' => 'Assets',
+                    'data' => array_values($data->toArray()),
+                ],
             ],
             'labels' => array_keys($data->toArray()),
         ];

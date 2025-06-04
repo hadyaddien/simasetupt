@@ -108,49 +108,71 @@ class DetailAssetsRelationManager extends RelationManager
             ])
             ->headerActions([
                 Tables\Actions\CreateAction::make()
-                ->label('Add New Asset')
+                    ->label('Add New Asset')
                     ->mutateFormDataUsing(function (array $data) {
                         $asset = $this->getOwnerRecord();
-            
+
                         $categorySlug = $asset->category?->category_slug ?? 'UNK';
                         $category = strtoupper(substr($categorySlug, 0, 4));
                         $name = strtoupper(Str::slug($asset->name, '-'));
-            
-                        $lastNumber = $asset->detail_assets()->count() + 1;
-                        $code = $category . '-' . $name . '-' . str_pad($lastNumber, 3, '0', STR_PAD_LEFT);
-            
-                        while ($asset->detail_assets()->where('code_asset', $code)->exists()) {
-                            $lastNumber++;
-                            $code = $category . '-' . $name . '-' . str_pad($lastNumber, 3, '0', STR_PAD_LEFT);
+                        $prefix = $category . '-' . $name . '-';
+
+                        // Ambil code_asset terakhir dari histori
+                        $lastCode = \App\Models\DetailAssetHistory::where('event', 'created')
+                            ->whereJsonContains('changes->message', 'Asset created.')
+                            ->whereHas('detailAsset', function ($q) use ($asset) {
+                                $q->where('asset_id', $asset->id);
+                            })
+                            ->orderByDesc('created_at')
+                            ->pluck('detail_asset_id') // Ambil ID terakhir
+                            ->map(function ($id) {
+                                return optional(\App\Models\Detail_asset::withTrashed()->find($id))->code_asset;
+                            })
+                            ->filter()
+                            ->first();
+
+                        // Jika tidak ditemukan di atas, fallback ke detail_assets
+                        if (!$lastCode) {
+                            $lastCode = \App\Models\Detail_asset::withTrashed()
+                                ->where('code_asset', 'like', $prefix . '%')
+                                ->orderByDesc('code_asset')
+                                ->value('code_asset');
                         }
-            
-                        $data['code_asset'] = $code;
-            
+
+                        $lastNumber = 0;
+                        if ($lastCode && preg_match('/(\d+)$/', $lastCode, $matches)) {
+                            $lastNumber = (int) $matches[1];
+                        }
+
+                        $newCode = $prefix . str_pad($lastNumber + 1, 3, '0', STR_PAD_LEFT);
+
+                        $data['code_asset'] = $newCode;
+
                         return $data;
                     }),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make()
-                ->before(function ($record, $action) {
-                    $remaining = $record->asset->detail_assets()->count();
-                    if ($remaining <= 1) {
-                        Notification::make()
-                            ->title('Failed to delete')
-                            ->body('At least one detail asset must remain.')
-                            ->danger()
-                            ->persistent()
-                            ->send();
-            
-                        $action->cancel();
-                    }
-                })
+                    ->modalHeading('Delete this item?')
+                    ->before(function ($record, $action) {
+                        $remaining = $record->asset->detail_assets()->count();
+                        if ($remaining <= 1) {
+                            Notification::make()
+                                ->title('Failed to delete')
+                                ->body('At least one detail asset must remain.')
+                                ->danger()
+                                ->persistent()
+                                ->send();
+
+                            $action->cancel();
+                        }
+                    })
             ])
             ->bulkActions([
                 // Tables\Actions\BulkActionGroup::make([
                 //     Tables\Actions\DeleteBulkAction::make(),
                 // ]),
             ]);
-             
     }
 }

@@ -73,13 +73,17 @@ class DetailAssetTable extends BaseWidget
                     if (!in_array($record->asset_status, $allowedAssetStatus)) {
                         return false;
                     }
-    
+
                     // Cek apakah ada laporan aktif
                     $disallowedStatuses = [
-                        'new_report', 'reviewed', 'action_proposed',
-                        'on_repair', 'under_replacement', 'disposed',
+                        'new_report',
+                        'reviewed',
+                        'action_proposed',
+                        'on_repair',
+                        'under_replacement',
+                        'disposed',
                     ];
-    
+
                     return !\App\Models\DamageReport::where('detail_asset_id', $record->id)
                         ->whereIn('status', $disallowedStatuses)
                         ->exists();

@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\DB;
 class DetailAssetTable extends BaseWidget
 {
     protected int|string|array $columnSpan = 'full';
-
+    protected static ?int $sort = 3;
     protected function getTableQuery(): Builder
     {
         $user = Auth::user();
@@ -41,18 +41,23 @@ class DetailAssetTable extends BaseWidget
                 ->sortable()
                 ->searchable(),
 
-            TextColumn::make('room.room_name')
-                ->label('Location')
-                ->placeholder('-')
+            TextColumn::make('user.name')
+                ->label('User')
                 ->sortable()
                 ->searchable(),
 
-            TextColumn::make('condition')
-                ->label('Asset Condition')
+            TextColumn::make('room.room_name')
+                ->label('Location')
                 ->placeholder('-'),
 
+            TextColumn::make('condition')
+                ->placeholder('Not Assigned')
+                ->formatStateUsing(fn($state) => Detail_asset::getConditionOptions()[$state] ?? $state),
+
             TextColumn::make('asset_status')
-                ->label('Asset Status'),
+                ->placeholder('Not Assigned')
+                ->label('Asset Status')
+                ->formatStateUsing(fn($state) => Detail_asset::getAssetStatusOptions()[$state] ?? $state),
         ];
         return $columns;
     }
@@ -68,7 +73,25 @@ class DetailAssetTable extends BaseWidget
                 ->icon('heroicon-o-exclamation-triangle')
                 ->color('#125D72')
                 ->visible(function ($record) {
-                    return !in_array($record->asset_status, ['in_repair', 'disposed']);
+                    // Cek status aset harus dalam kondisi layakAdd commentMore actions
+                    $allowedAssetStatus = ['in_warehouse', 'in_use', 'in_loan'];
+                    if (!in_array($record->asset_status, $allowedAssetStatus)) {
+                        return false;
+                    }
+
+                    // Cek apakah ada laporan aktif
+                    $disallowedStatuses = [
+                        'new_report',
+                        'reviewed',
+                        'action_proposed',
+                        'on_repair',
+                        'under_replacement',
+                        'disposed',
+                    ];
+
+                    return !\App\Models\DamageReport::where('detail_asset_id', $record->id)
+                        ->whereIn('status', $disallowedStatuses)
+                        ->exists();
                 }),
         ];
     }

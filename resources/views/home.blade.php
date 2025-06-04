@@ -79,8 +79,10 @@
             </p>
         </div>
         <div class="space-y-4">
-            <div class="w-full h-40 bg-gray-300"></div>
-            <div class="w-full h-40 bg-gray-300"></div>
+            <img src="{{ asset('img/img1.jpg') }}" alt="Gambar 1"
+                class="w-full h-40 object-cover rounded-md shadow-md" />
+            <img src="{{ asset('img/img2.jpg') }}" alt="Gambar 2"
+                class="w-full h-40 object-cover rounded-md shadow-md" />
         </div>
     </section>
 

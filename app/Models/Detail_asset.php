@@ -39,15 +39,18 @@ class Detail_asset extends Model
         return [
             'in_warehouse' => 'In Warehouse',
             'in_use' => 'In Use',
-            'in_loan' => 'In Loan',
             'in_repair' => 'In Repair',
             'disposed' => 'Disposed',
         ];
     }
 
     public function damageReports()
-{
-    return $this->hasMany(\App\Models\DamageReport::class);
-}
+    {
+        return $this->hasMany(\App\Models\DamageReport::class);
+    }
 
+    public function histories()
+    {
+        return $this->hasMany(\App\Models\DetailAssetHistory::class);
+    }
 }

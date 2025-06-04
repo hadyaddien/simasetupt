@@ -16,8 +16,6 @@ return new class extends Migration
             $table->foreignId('detail_asset_id')->constrained('detail_assets')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->text('description')->nullable();
-            // $table->enum('status_report', ['new_report', 'reviewed', 'resolved'])->default('new_report');
-            // $table->enum('action_taken', ['pending', 'repaired', 'replaced', 'disposed'])->default('Pending');
             $table->string('status')->default('new_report');
             $table->enum('validator_status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->string('attachment')->nullable();

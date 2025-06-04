@@ -30,6 +30,8 @@ class ApproverPanelProvider extends PanelProvider
             ->colors([
                 'primary' => "#125D72",
             ])
+            ->darkMode(false)
+            ->font('Poppins')
             ->discoverResources(in: app_path('Filament/Approver/Resources'), for: 'App\\Filament\\Approver\\Resources')
             ->discoverPages(in: app_path('Filament/Approver/Pages'), for: 'App\\Filament\\Approver\\Pages')
             ->pages([

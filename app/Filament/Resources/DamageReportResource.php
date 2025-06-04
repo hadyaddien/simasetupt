@@ -26,9 +26,17 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class DamageReportResource extends Resource
 {
+    protected static ?string $navigationGroup = 'Assets Management';
     protected static ?string $navigationLabel = 'Review Damage Reports';
 
+    protected static ?int $navigationSort = 2;
+
     protected static ?string $model = DamageReport::class;
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
     protected static ?string $navigationIcon = 'heroicon-o-exclamation-triangle';
 

@@ -14,6 +14,7 @@ use Filament\Support\Colors\Color;
 use Filament\Widgets;
 use App\Filament\Widgets\AssetCategoriesChart;
 use App\Filament\Widgets\AssetsByStatusChart;
+use Filament\Navigation\NavigationGroup;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -31,6 +32,20 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => "#125D72",
             ])
+            ->darkMode(false)
+            ->font('Poppins')
+            ->brandLogo(asset('img/logo.png'))
+            ->navigationGroups([
+                NavigationGroup::make()
+                    ->label('Assets Management')
+                    ->collapsible(false),
+                NavigationGroup::make()
+                    ->label('Users Management')
+                    ->collapsible(false),
+                NavigationGroup::make()
+                    ->label('Settings')
+                    ->collapsible(false),
+            ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -40,7 +55,6 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
                 AssetCategoriesChart::class,
-                AssetsByStatusChart::class,
                 // Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([

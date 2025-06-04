@@ -29,6 +29,8 @@ class ValidatorPanelProvider extends PanelProvider
             ->colors([
                 'primary' => "#125D72",
             ])
+            ->darkMode(false)
+            ->font('Poppins')
             ->discoverResources(in: app_path('Filament/Validator/Resources'), for: 'App\\Filament\\Validator\\Resources')
             ->discoverPages(in: app_path('Filament/Validator/Pages'), for: 'App\\Filament\\Validator\\Pages')
             ->pages([

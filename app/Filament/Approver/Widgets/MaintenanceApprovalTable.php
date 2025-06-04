@@ -27,7 +27,8 @@ class MaintenanceApprovalTable extends BaseWidget
                 TextColumn::make('damageReport.detailAsset.asset.name')->label('Asset Name'),
                 TextColumn::make('damageReport.description')->label('Report Description'),
                 TextColumn::make('damageReport.status')->label('Damage Status'),
-                TextColumn::make('cost')->label('Estimated Cost')->money('IDR'),
+                TextColumn::make('repair_cost')->label('Estimated Repair Cost')->money('IDR'),
+                TextColumn::make('replace_cost')->label('Estimated Replace Cost')->money('IDR'),
             ])
             ->actions([
                 Action::make('approve')

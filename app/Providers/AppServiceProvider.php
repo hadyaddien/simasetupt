@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Asset;
 use App\Models\Detail_asset;
 use App\Observers\AuditableObserver;
+use App\Observers\DetailAssetHistoryObserver;
 use App\Observers\DetailAssetObserver;
 use Filament\Support\Assets\Css;
 use Filament\Support\Facades\FilamentAsset;
@@ -27,9 +28,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Model::unguard();
-        foreach ([Asset::class, Detail_asset::class] as $model) {
-            $model::observe(AuditableObserver::class);
-        }
+        Detail_asset::observe(DetailAssetHistoryObserver::class);
+        // foreach ([Asset::class, Detail_asset::class] as $model) {
+        //     $model::observe(AuditableObserver::class);
+        // }
 
         // DetailAssetObserver khusus untuk sinkronisasi quantity
         Detail_asset::observe(DetailAssetObserver::class);

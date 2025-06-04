@@ -41,9 +41,11 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class AssetResource extends Resource
 {
-    protected static ?string $navigationLabel = 'Manage Data Assets';
+    protected static ?string $navigationGroup = 'Assets Management';
 
+    protected static ?int $navigationSort = 1;
     protected static ?string $model = Asset::class;
+    
 
     protected static ?string $navigationIcon = 'heroicon-o-cube';
 
@@ -51,17 +53,17 @@ class AssetResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('Product Information')
+                Section::make('Asset Information')
                     ->schema([
                         Grid::make(3)
                             ->schema([
                                 FileUpload::make('picture')
-                                    ->label('Product Image')
+                                ->label('Asset Image')
                                     ->image()
                                     ->imageEditor(),
 
                                 TextInput::make('name')
-                                    ->label('Product Name')
+                                    ->label('Asset Name')
                                     ->columnSpan(2)
                                     ->required(),
                             ])

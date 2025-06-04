@@ -29,6 +29,9 @@ class UserPanelProvider extends PanelProvider
             ->colors([
                 'primary' => "#125D72",
             ])
+            ->darkMode(false)
+            ->font('Poppins')
+            ->brandLogo(asset('img/logo.png'))
             ->discoverResources(in: app_path('Filament/User/Resources'), for: 'App\\Filament\\User\\Resources')
             ->discoverPages(in: app_path('Filament/User/Pages'), for: 'App\\Filament\\User\\Pages')
             ->pages([

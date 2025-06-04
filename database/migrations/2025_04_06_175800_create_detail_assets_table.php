@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('division_id')->nullable()->constrained()->nullOnDelete();
             $table->enum('condition', ['good', 'minor_damage', 'not_functional'])->nullable();
-            $table->enum('asset_status', ['in_warehouse', 'in_use', 'in_loan', 'in_repair', 'disposed'])->nullable();
+            $table->enum('asset_status', ['in_warehouse', 'in_use', 'in_repair', 'disposed'])->nullable();
             $table->timestamps();
         });
     }
