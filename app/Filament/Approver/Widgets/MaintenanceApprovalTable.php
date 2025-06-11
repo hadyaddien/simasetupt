@@ -34,8 +34,8 @@ class MaintenanceApprovalTable extends BaseWidget
             ->actions([
                 Action::make('viewHistory')
                     ->label('View History')
-                    ->url(fn($record) => route('filament.approver.resources.detail-asset-histories.index', [
-                        'detail_asset_id' => $record->id,
+                    ->url(fn(Maintenance $record) => route('filament.approver.resources.detail-asset-histories.index', [
+                        'detail_asset_id' => $record->damageReport->detail_asset_id,
                     ]))
                     ->icon('heroicon-o-clock'),
                 Action::make('approve')
