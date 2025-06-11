@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Approver\Resources;
 
-use App\Filament\Resources\DetailAssetHistoryResource\Pages;
-use App\Filament\Resources\DetailAssetHistoryResource\RelationManagers;
+use App\Filament\Approver\Resources\DetailAssetHistoryResource\Pages;
+use App\Filament\Approver\Resources\DetailAssetHistoryResource\RelationManagers;
 use App\Models\DetailAssetHistory;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -17,12 +17,9 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class DetailAssetHistoryResource extends Resource
 {
     protected static ?string $model = DetailAssetHistory::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-clock';
     protected static ?string $navigationLabel = 'Asset Histories';
     protected static ?string $label = 'Asset Histories';
-    protected static ?string $navigationGroup = 'Assets Management';
-    protected static ?int $navigationSort=4;
 
     public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
     {

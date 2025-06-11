@@ -30,7 +30,14 @@ class MaintenanceApprovalTable extends BaseWidget
                 TextColumn::make('repair_cost')->label('Estimated Repair Cost')->money('IDR'),
                 TextColumn::make('replace_cost')->label('Estimated Replace Cost')->money('IDR'),
             ])
+
             ->actions([
+                Action::make('viewHistory')
+                    ->label('View History')
+                    ->url(fn($record) => route('filament.approver.resources.detail-asset-histories.index', [
+                        'detail_asset_id' => $record->id,
+                    ]))
+                    ->icon('heroicon-o-clock'),
                 Action::make('approve')
                     ->label('Approve')
                     ->icon('heroicon-o-check-circle')
